@@ -1,5 +1,13 @@
 ## C++ Primer读书笔记
 
+STL 类的遍历方式
+```
+        vector<std::string> words { "one", "none","some"};
+        for(auto &i: words)
+            i+=i;
+```
+注意： 仅适用于有 begin/end 的数据类型， int* a, new int[] 不适用
+
 #### 基本内置类型
 
 - 类型char和类型signed char并不一样，char根据编译器 的不同表示为signed char 和 unsigned char，现在大多数计算机表示范围为-128至127
@@ -554,7 +562,11 @@ sizeof expr
 
 使用注意
 ```
-https://blog.csdn.net/jiandanokok/article/details/50517837?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~all~first_rank_v2~rank_v28-4-50517837.nonecase&utm_term=sizeof%E6%95%B0%E7%BB%84%E5%90%8D%E6%8F%90%E7%A4%BA%E9%94%99%E8%AF%AF&spm=1000.2123.3001.4430
+
+        int* a =new int[5]{0};
+         int arr2[] = {1,3,4,5};
+         cout<<"sizeof(arr): "<<sizeof(a)<<endl;   //sizeof(arr): 8
+        cout<<"sizeof(arr2): "<<sizeof(arr2)<<endl;  //sizeof(arr2): 16
 ```
 ？？？sizeof 数组、string 、vector......
 
