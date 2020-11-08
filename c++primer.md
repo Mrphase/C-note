@@ -159,6 +159,19 @@ typedef  unsigned long size_t;
 
 与int固定四个字节不同有所不同,size_t的取值range是目标平台下最大可能的数组尺寸,一些平台下size_t的范围小于int的正数范围,又或者大于unsigned int. 使用Int既有可能浪费，又有可能范围不够大。
 
+### stack 与 queue
+先进后出 与 先进先出
+stack<int> s; queue<int> q;
+empty() 堆栈为空则返回真
+
+pop() 移除栈顶元素
+
+push() 在栈顶增加元素
+
+size() 返回栈中元素数目
+
+top() 返回栈顶元素
+
 #### 神奇的remove() 函数
 remove() 算法由定义在 algorithm 头文件中的模板生成，它可以删除匹配特定值的一段元素。例如：
 ```
