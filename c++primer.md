@@ -162,8 +162,16 @@ typedef  unsigned long size_t;
 #### 神奇的remove() 函数
 remove() 算法由定义在 algorithm 头文件中的模板生成，它可以删除匹配特定值的一段元素。例如：
 ```
-std::vector<std::string> words { "one", "none","some", "all”, "none", "most","many"};
-auto iter = std::remove(std::begin(words), std::end(words), "none");
+vector<std::string> words { "one", "none","some", "all","all","all", "none"};
+auto iter = std::remove(std::begin(words), std::end(words), "all"); 
+//words: {"one", "none", "some", "most", "many", "none", "", "", ""}
+
+words.erase(iter, words.end()); 
+//words: {"one", "none", "some", "most", "many", "none"}
+
+vector<std::string> words2;
+for(auto i = words.begin(); i != iter; i++) 
+  {cout<<*i; words2.push_back(*i);} //words2: {"one", "none", "some", "most", "many", "none"}
 ```
 
 实例，对array操作，remove掉20
