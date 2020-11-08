@@ -166,6 +166,7 @@ std::vector<std::string> words { "one", "none","some", "all”, "none", "most","
 auto iter = std::remove(std::begin(words), std::end(words), "none");
 ```
 
+实例，对array操作，remove掉20
 ```
 int myints[] = {10,20,30,30,20,10,10,20};      // 10 20 30 30 20 10 10 20
 int* pbegin = myints;                          // ^
@@ -198,6 +199,7 @@ unordered_set基于哈希表
         }
 ```
 
+
 operator
 
 ```
@@ -213,6 +215,8 @@ operator
   std::cout << std::endl;
 
 ```
+输出： sixth contains: pink yellow red green orange blue
+
 
 批量添加元素
 ```
@@ -224,7 +228,6 @@ unordered_set<string> dict(wordList.begin(), wordList.end()); // fast!
 ```
 
 添加新的元素(注意无法插入相同元素)
-
 ```
 c.insert("dddd")：向容器添加元素”dddd"
 a.insert({ "aaa","bbbb","cccc" })：向容器添加元素"aaa","bbbb","cccc"
