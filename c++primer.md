@@ -160,8 +160,11 @@ typedef  unsigned long size_t;
 与int固定四个字节不同有所不同,size_t的取值range是目标平台下最大可能的数组尺寸,一些平台下size_t的范围小于int的正数范围,又或者大于unsigned int. 使用Int既有可能浪费，又有可能范围不够大。
 
 ### stack 与 queue
-先进后出 与 先进先出
-stack<int> s; queue<int> q;
+```
+
+stack<int> s; //先进后出
+queue<int> q; //先进先出
+```
 empty() 堆栈为空则返回真
 
 pop() 移除栈顶元素
