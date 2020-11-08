@@ -1,10 +1,11 @@
 ## C++ Primer读书笔记
 
-STL 类的遍历方式
+优美的 STL 类遍历方式
 ```
-        vector<std::string> words { "one", "none","some"};
-        for(auto &i: words)
-            i+=i;
+vector<std::string> words { "one", "none","some"};
+
+for(auto &i: words)
+    i+=i;
 ```
 注意： 仅适用于有 begin/end 的数据类型， int* a, new int[] 不适用
 
