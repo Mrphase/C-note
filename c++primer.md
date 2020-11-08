@@ -186,6 +186,50 @@ words.erase(iter, std::end(words));//Remove surplus elements
 ```
 
 ### unordered_set
+unordered_set基于哈希表
+遍历：
+```
+       unordered_set<int> set;
+        for (int i=0; i<list.size(); i++){
+            set.insert(list[i]);
+        }
+        for (unordered_set<int>::iterator i = set.begin(); i != set.end(); i++) {
+            cout << *i << endl;
+        }
+```
+
+operator
+
+```
+  std::unordered_set<std::string> first;                                // empty
+  std::unordered_set<std::string> second ( {"red","green","blue"} );    // init list
+  std::unordered_set<std::string> third ( {"orange","pink","yellow"} ); // init list
+  std::unordered_set<std::string> fourth ( second );                    // copy
+  std::unordered_set<std::string> fifth ( cmerge(third,fourth) );       // move
+  std::unordered_set<std::string> sixth ( fifth.begin(), fifth.end() ); // range
+
+  std::cout << "sixth contains:";
+  for (const std::string& x: sixth) std::cout << " " << x;
+  std::cout << std::endl;
+
+```
+
+批量添加元素
+```
+wordList: {"hot", "dot", "dog", "lot", "log", "cog"}
+
+unordered_set<string> dict(wordList.begin(), wordList.end()); // fast!
+
+ //dict: {[0] = "cog", [1] = "log", [2] = "lot", [3] = "dog", [4] = "dot", [5] = "hot"}
+```
+
+添加新的元素(注意无法插入相同元素)
+
+```
+c.insert("dddd")：向容器添加元素”dddd"
+a.insert({ "aaa","bbbb","cccc" })：向容器添加元素"aaa","bbbb","cccc"
+a.insert(b.begin(), b.end())：b是一个存储着和a相同类型元素的向量，可将b中所有元素添加到a中 
+```
 
 #### 字符串、向量和数组
 
@@ -198,7 +242,7 @@ words.erase(iter, std::end(words));//Remove surplus elements
 例子：using std::cin;
 ```
 
-##### stting对象
+##### string对象
 
 初始化string的方式：
 
