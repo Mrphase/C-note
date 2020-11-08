@@ -446,6 +446,40 @@ string::const_iterator it4;			只能读元素，不能写
 
 ##### 数组
 
+```
+#include <iostream>
+int main (int args, char **argv)
+{
+    int arr[5];//stack of the computer
+
+    //C like array allocation
+    int *arr_m = (int *) malloc(sizeof (int) * 5);
+
+    //C++ like array allocation, stays in the heap
+    int *arr_new = new int[5]; //脏数据数组
+    int *str = new string[5];    //空字符串数组
+    int *b = new int[5]{0};    //   [0,0,0,0,0]
+    int *c = new int[5]();    //[0,0,0,0,0]  注意是圆括号
+
+    int arr2[5][5];
+    //C like 
+    //
+    int **arr_2d_m = (int **) malloc(sizeof (int*) * 5);
+    for(int i = 0; i < 5; i ++)
+        arr_2d_m[i] = (int *) malloc(sizeof (int) * 5);
+
+    //C++ like 
+    int **arr_2d_new = new int*[5];
+    for(int i = 0; i < 5; i ++)
+        arr_2d_new[i] = new int[5];
+
+     return 0;
+    
+}
+
+```
+
+
 数组不允许拷贝和赋值：
 
 ```
@@ -518,6 +552,10 @@ sizeof(type)
 sizeof expr
 ```
 
+使用注意
+```
+https://blog.csdn.net/jiandanokok/article/details/50517837?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~all~first_rank_v2~rank_v28-4-50517837.nonecase&utm_term=sizeof%E6%95%B0%E7%BB%84%E5%90%8D%E6%8F%90%E7%A4%BA%E9%94%99%E8%AF%AF&spm=1000.2123.3001.4430
+```
 ？？？sizeof 数组、string 、vector......
 
 #### 函数
