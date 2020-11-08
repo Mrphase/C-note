@@ -163,7 +163,12 @@ typedef  unsigned long size_t;
 ```
 
 stack<int> s; //先进后出
+	auto a=s.top(); //返回队首元素的值，但不删除该元素
+	s.pop();//删除队列首元素但不返回其值
+
 queue<int> q; //先进先出
+	auto a=q.front(); //返回队首元素的值，但不删除该元素
+	q.pop();//删除队列首元素但不返回其值
 ```
 empty() 堆栈为空则返回真
 
