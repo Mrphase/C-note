@@ -1,5 +1,5 @@
 ## C++ Primer读书笔记
-get it from my friend:
+
 #### 基本内置类型
 
 - 类型char和类型signed char并不一样，char根据编译器 的不同表示为signed char 和 unsigned char，现在大多数计算机表示范围为-128至127
@@ -159,6 +159,34 @@ typedef  unsigned long size_t;
 
 与int固定四个字节不同有所不同,size_t的取值range是目标平台下最大可能的数组尺寸,一些平台下size_t的范围小于int的正数范围,又或者大于unsigned int. 使用Int既有可能浪费，又有可能范围不够大。
 
+#### 神奇的remove() 函数
+remove() 算法由定义在 algorithm 头文件中的模板生成，它可以删除匹配特定值的一段元素。例如：
+```
+std::vector<std::string> words { "one", "none","some", "all”, "none", "most","many"};
+auto iter = std::remove(std::begin(words), std::end(words), "none");
+```
+
+```
+int myints[] = {10,20,30,30,20,10,10,20};      // 10 20 30 30 20 10 10 20
+int* pbegin = myints;                          // ^
+int* pend = myints+sizeof(myints)/sizeof(int); // ^                       ^
+
+pend = std::remove (pbegin, pend, 20);         // 10 30 30 10 10 ?  ?  ?
+
+std::cout << "range contains:";
+  for (int* p=pbegin; p!=pend; ++p)
+    std::cout << ' ' << *p;
+```
+输出： range contains: 10 30 30 10 10
+注意 vector size 任然为 8， 但10 后面有一个it 指向 vector.end()所以到10结束输出。
+
+为了摆脱这些多余的元素，可以使用成员函数 erase()。remove() 返回的迭代器可以这样使用：
+```
+words.erase(iter, std::end(words));//Remove surplus elements
+```
+
+### unordered_set
+
 #### 字符串、向量和数组
 
 ##### using申明
@@ -248,9 +276,10 @@ vector<T> v5{a,b,c...}//直接初始化
 vector<T> v5={a,b,c...}//拷贝初始化
 ```
 
-```
+
 构造函数
 语法: 
+```
   vector();
   vector( size_type num, const TYPE &val );
   vector( const vector &from );
@@ -293,6 +322,22 @@ for(auto &i : v) i *= i;
 ```
 vector<int>::size_type	正确
 vector::size_type		错误
+```
+
+通过使用 vector 的成员函数 clear() 来删除所有的元素。例如：
+```
+std::vector<int> data(100, 99);// Contains 100 elements initialized to 99
+data.clear(); // Remove all elements
+```
+第二条语句移除了所有的元素，因此大小变为 0，因为这个操作并没有改变容器的容量，所以容量还是 100。
+
+使用成员函数 erase() 来删除容器中的一个或多个元素：
+```
+// erase the 6th element
+  myvector.erase (myvector.begin()+5);
+
+// erase the first 3 elements:
+myvector.erase (myvector.begin(),myvector.begin()+3);
 ```
 
 ##### 迭代器
