@@ -168,6 +168,126 @@ typedef  unsigned long size_t;
 
 与int固定四个字节不同有所不同,size_t的取值range是目标平台下最大可能的数组尺寸,一些平台下size_t的范围小于int的正数范围,又或者大于unsigned int. 使用Int既有可能浪费，又有可能范围不够大。
 
+
+
+##### 数组
+
+```
+#include <iostream>
+int main ()
+{
+    int arr[5];//stack of the computer
+
+    //C like array allocation
+    int *arr_m = (int *) malloc(sizeof (int) * 5);
+
+    //C++ like array allocation, stays in the heap
+    int *arr_new = new int[5]; //脏数据数组
+    int *str = new string[5];    //空字符串数组
+    int *b = new int[5]{0};    //   [0,0,0,0,0]
+    int *c = new int[5]();    //[0,0,0,0,0]  注意是圆括号
+
+    int arr2[5][5];
+    //C  
+    int **arr_2d_m = (int **) malloc(sizeof (int*) * 5);
+    for(int i = 0; i < 5; i ++)
+        arr_2d_m[i] = (int *) malloc(sizeof (int) * 5);
+
+    //C++  
+    int **arr_2d_new = new int*[5];
+    for(int i = 0; i < 5; i ++)
+        arr_2d_new[i] = new int[5];
+
+     return 0;
+}
+
+```
+
+
+数组不允许拷贝和赋值：
+
+```
+int a[] = {1,2,3}; 
+int b[] = a;	错误：不允许使用一个数组初始化另一个数组
+b = a;		错误：不能把一个数组直接赋值给另一个数组
+```
+
+只要指针指向的是数组中的元素，或者数组中尾元素的下一位置，都可以执行下标运算。
+
+```
+int a[] = {0,2,4,6,8};
+int *p = &a[2];	//p指向索引为2的元素
+int j = p[1];	//p[1]等价于*(p+1)，为a[3]
+int k = p[-2];	//等价于a[0]
+```
+
+虽然标准库类型string和vector也能执行下标运算，但是标准库类型限定使用的下标必须是无符号类型，而内置的下标运算无此要求。
+
+##### 多维数组
+
+```
+int a[10][2][3] = {0}	//将所有元素初始化为0
+//内层嵌套的花括号并非必需
+int a[3][4] = {0,1,2,3,4,5,6,7,8,9,10,11};
+```
+
+对多维数组操作需用引用：
+
+```
+int a[2][2] = {1,2,3,4};
+int cnt = 5;
+for(auto &row : a){
+	for(auto &col : row){
+		col = cnt++;
+	}
+}
+原因解释：
+这里的&row是对原二维数组的引用即别名，如果没有&，则会发生内存拷贝，会把一行拷贝出来，row为新的一行的首地址。
+```
+
+类型别名简化多维数组的指针：
+
+```
+using int_array = int[4];	新标准下的类型别名声明
+typedef int int_array[4];	等价的typedef声明
+```
+
+##### 求值顺序
+
+```
+int i = f1() + f2();	//先求f1还是f2是未知的
+int i = 0;
+cout << i << " " << ++i <<endl;
+这一句先打印还是先++，顺序也是不可预知的
+```
+
+==建议：除非必须，否则不用递增递减运算符的后置位版本==
+
+原因是：前置版本的的递增运算符避免了不必要的工作，它把值加1后直接返回，后置版本的还需存一下未修改的值，浪费！！相对于复杂的迭代器类型，消耗的性能更大，建议养成使用前置版本的习惯。
+
+##### sizeof 运算符
+
+sizeof 运算符返回一条表达式或一个类型名字所占的字节数；
+
+sizeof 运算符满足结合律，其所得值是一个size_t类型的常量表达式：
+
+```
+sizeof(type)
+sizeof expr
+```
+
+使用注意
+```
+
+        int* a =new int[5]{0};
+         int arr2[] = {1,3,4,5};
+         cout<<"sizeof(arr): "<<sizeof(a)<<endl;   //sizeof(arr): 8
+        cout<<"sizeof(arr2): "<<sizeof(arr2)<<endl;  //sizeof(arr2): 16
+```
+？？？sizeof 数组、string 、vector......
+
+
+
 ### stack 与 queue
 ```
 
@@ -452,124 +572,6 @@ string::const_iterator it4;			只能读元素，不能写
 (*it).empty();	解引用it，然后调用结果对象的empty成员，等价于it->empty()
 *it.empty();	错误！
 ```
-
-##### 数组
-
-```
-#include <iostream>
-int main (int args, char **argv)
-{
-    int arr[5];//stack of the computer
-
-    //C like array allocation
-    int *arr_m = (int *) malloc(sizeof (int) * 5);
-
-    //C++ like array allocation, stays in the heap
-    int *arr_new = new int[5]; //脏数据数组
-    int *str = new string[5];    //空字符串数组
-    int *b = new int[5]{0};    //   [0,0,0,0,0]
-    int *c = new int[5]();    //[0,0,0,0,0]  注意是圆括号
-
-    int arr2[5][5];
-    //C like 
-    //
-    int **arr_2d_m = (int **) malloc(sizeof (int*) * 5);
-    for(int i = 0; i < 5; i ++)
-        arr_2d_m[i] = (int *) malloc(sizeof (int) * 5);
-
-    //C++ like 
-    int **arr_2d_new = new int*[5];
-    for(int i = 0; i < 5; i ++)
-        arr_2d_new[i] = new int[5];
-
-     return 0;
-    
-}
-
-```
-
-
-数组不允许拷贝和赋值：
-
-```
-int a[] = {1,2,3}; 
-int b[] = a;	错误：不允许使用一个数组初始化另一个数组
-b = a;		错误：不能把一个数组直接赋值给另一个数组
-```
-
-只要指针指向的是数组中的元素，或者数组中尾元素的下一位置，都可以执行下标运算。
-
-```
-int a[] = {0,2,4,6,8};
-int *p = &a[2];	//p指向索引为2的元素
-int j = p[1];	//p[1]等价于*(p+1)，为a[3]
-int k = p[-2];	//等价于a[0]
-```
-
-虽然标准库类型string和vector也能执行下标运算，但是标准库类型限定使用的下标必须是无符号类型，而内置的下标运算无此要求。
-
-##### 多维数组
-
-```
-int a[10][2][3] = {0}	//将所有元素初始化为0
-//内层嵌套的花括号并非必需
-int a[3][4] = {0,1,2,3,4,5,6,7,8,9,10,11};
-```
-
-对多维数组操作需用引用：
-
-```
-int a[2][2] = {1,2,3,4};
-int cnt = 5;
-for(auto &row : a){
-	for(auto &col : row){
-		col = cnt++;
-	}
-}
-原因解释：
-这里的&row是对原二维数组的引用即别名，如果没有&，则会发生内存拷贝，会把一行拷贝出来，row为新的一行的首地址。
-```
-
-类型别名简化多维数组的指针：
-
-```
-using int_array = int[4];	新标准下的类型别名声明
-typedef int int_array[4];	等价的typedef声明
-```
-
-##### 求值顺序
-
-```
-int i = f1() + f2();	//先求f1还是f2是未知的
-int i = 0;
-cout << i << " " << ++i <<endl;
-这一句先打印还是先++，顺序也是不可预知的
-```
-
-==建议：除非必须，否则不用递增递减运算符的后置位版本==
-
-原因是：前置版本的的递增运算符避免了不必要的工作，它把值加1后直接返回，后置版本的还需存一下未修改的值，浪费！！相对于复杂的迭代器类型，消耗的性能更大，建议养成使用前置版本的习惯。
-
-##### sizeof 运算符
-
-sizeof 运算符返回一条表达式或一个类型名字所占的字节数；
-
-sizeof 运算符满足结合律，其所得值是一个size_t类型的常量表达式：
-
-```
-sizeof(type)
-sizeof expr
-```
-
-使用注意
-```
-
-        int* a =new int[5]{0};
-         int arr2[] = {1,3,4,5};
-         cout<<"sizeof(arr): "<<sizeof(a)<<endl;   //sizeof(arr): 8
-        cout<<"sizeof(arr2): "<<sizeof(arr2)<<endl;  //sizeof(arr2): 16
-```
-？？？sizeof 数组、string 、vector......
 
 #### 函数
 
