@@ -479,6 +479,9 @@ vector<T> v3(n, val) //包含n个重复元素
 vector<T> v4(n) //包含了n个默认初始化元素（如果T为int，则默认初始化元素为0）
 vector<T> v5{a,b,c...}//直接初始化
 vector<T> v5={a,b,c...}//拷贝初始化
+
+//二维vector
+vector<vector<int>> res(r, vector<int>(r)) ；
 ```
 
 
