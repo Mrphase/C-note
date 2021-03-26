@@ -1096,3 +1096,86 @@ private:
 
 如果基类的析构函数不是虚函数，则delete一个指向派生；类对象的基类指针将产生未定义行为。
 
+### 笔试用输入数据模板
+##### 类型一：两行未知数量
+1 2 3 4 ...
+5 6 7 8 ...
+
+```
+vector<int> shua,shub;
+int main(){
+	string line;
+	getline(cin,line);
+	stringstream ss1(line);
+	int s,lena=0,lenb=0;
+	while(ss1 >> s){
+		shua.push_back(s);
+	}
+	getline(cin,line);
+	stringstream ss2(line);
+	while(ss2>>s){
+		shub.push_back(s);
+	}
+
+//shua 第一个数组 shub第二个数组
+return 0;
+}
+```
+##### 类型二：一行字符串有空格
+aBC DEF....
+```
+const int maxn=1030;
+string str[maxn];
+ 
+int main(){
+	string s;
+	string line;
+	getline(cin,line);
+	stringstream ss1(line);
+	int i=0;
+	while(ss1>>s){
+	  str[i++]=s;
+	}
+//str 为字符串数组
+return 0;
+}
+```
+
+##### 类型三：多行多参数
+5 6 //任务数量（节点数N） 依赖关系（边数M）
+1 2 1 1 1  // N个数表示该任务处理时间
+1 2 //M 行表示任务依赖关系
+1 3
+1 4 
+...
+```
+struct EdgeList
+{
+	int to,next;
+}e[110000];
+int n,m,in[11000];
+pair<int,int> a[11000];
+
+void insert(const int &x,const int &y)
+{
+	in[y]++;
+	e[++cnt].to=y;
+	e[cnt].next=p[x];
+	p[x]=cnt;
+}
+
+int main(){
+cin >> n >> m;
+	for(int i=1;i<=n;++i)
+	{
+		cin >> a[i].first; // 所需时间
+		a[i].second=i; //当前节点
+	}
+	for(int i=1;i<=m;++i)
+	{
+		int x,y;
+		cin >> x >> y;
+		insert(x,y);
+	}
+}
+```
